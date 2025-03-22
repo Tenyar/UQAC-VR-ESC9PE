@@ -1,42 +1,42 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public List<Item> items = new List<Item>();
+    /** Dictionary to record item states: Key = item name/ID, Value = status or state description
+     Example of recording an item and its state in the journal
+     levelJournal["AncientVase"] = "ItemObject";
+     levelJournal["SilverKey"] = "ItemObject";
+    **/
+    private Dictionary<string, Item> levelJournal = new Dictionary<string, Item>();
+
     public int health;
 
     public int GetHealth()
     {
-        return health;
+        return this.health;
     }
 
     public void SetHealth(int newHealth)
     {
-        health = newHealth;
+        this.health = newHealth;
     }
 
-    public List<string> GetItems()
+    public Dictionary<string, Item> GetItems()
     {
-        List<string> itemNames = new List<string>();
-        foreach (Item item in items)
-        {
-            itemNames.Add(item.GetName());
-        }
-        return itemNames;
+        return this.levelJournal;
     }
 
     // Add an item to the notebook (journal)
     public void AddItem(Item newItem)
     {
-        items.Add(newItem);
+        this.levelJournal.Add(newItem.GetName(), newItem);
         Debug.Log($"Item {newItem.GetName()} added to player.");
     }
 
     public void TakeDamage(int amount)
     {
-        currentHealth -= amount;
+        int currentHealth = this.health - amount;
         GameManager.Instance.PlayerTookDamage(amount);
 
         if (currentHealth <= 0)
@@ -47,8 +47,9 @@ public class Player : MonoBehaviour
 
     public void Heal(int amount)
     {
-        currentHealth += amount;
-        currentHealth = Mathf.Min(currentHealth, maxHealth);
+        this.health += amount;
+        // Limit the life of a player to 100
+        this.health = Mathf.Min(this.health, 100);
     }
 
     private void Die()

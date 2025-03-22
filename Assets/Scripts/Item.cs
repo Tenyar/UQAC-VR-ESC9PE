@@ -5,6 +5,8 @@ public class Item
 {
     public string name;
     public bool anomaly;
+    public string status;
+    public bool collected; 
 
     public string GetName()
     {
