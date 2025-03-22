@@ -33,26 +33,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Ajoute un objet au journal s'il n'est pas déjà dedans
-    public void RecordItemInteraction(string itemName)
+    // Adds an object to the journal if it is not already in it
+    public void RecordItemInteraction(GameObject reference, string itemName)
     {
-        // Cherche l’objet dans la scène (par nom)
-        GameObject found = GameObject.Find(itemName);
-        if (found != null)
+        // Create an Object "Item"
+        Item itemComponent = reference.GetComponent<Item>();
+        if (itemComponent != null && !this.currentLevelJournal.ContainsKey(itemName))
         {
-            Item itemComponent = found.GetComponent<Item>();
-            if (itemComponent != null && !this.currentLevelJournal.ContainsKey(itemName))
-            {
-                // Stock {"itemName" = ObjetItem}
-                this.currentLevelJournal[itemName] = itemComponent;
-                Debug.Log($"[Journal] Objet '{itemName}' enregistré dans le journal.");
-            }
+            // Store --> {"itemName" = ObjetItem}
+            this.currentLevelJournal[itemName] = itemComponent;
+            Debug.Log($"[Journal] Objet '{itemName}' enregistré dans le journal.");
         }
         else
         {
             Debug.LogWarning($"[Journal] Objet '{itemName}' non trouvé dans la scène !");
         }
     }
+    
     public void PlayerTookDamage(int amount)
     {
         playerData.health -= amount;

@@ -9,7 +9,7 @@ public class InteractableItem : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(itemName))
         {
-            GameManager.Instance.RecordItemInteraction(itemName);
+            GameManager.Instance.RecordItemInteraction(gameObject, itemName);
         }
     }
 }
