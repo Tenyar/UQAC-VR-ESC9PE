@@ -8,8 +8,6 @@ public class Player : MonoBehaviour
      levelJournal["AncientVase"] = "ItemObject";
      levelJournal["SilverKey"] = "ItemObject";
     **/
-    private Dictionary<string, Item> levelJournal = new Dictionary<string, Item>();
-
     public int health;
 
     public int GetHealth()
@@ -20,18 +18,6 @@ public class Player : MonoBehaviour
     public void SetHealth(int newHealth)
     {
         this.health = newHealth;
-    }
-
-    public Dictionary<string, Item> GetItems()
-    {
-        return this.levelJournal;
-    }
-
-    // Add an item to the notebook (journal)
-    public void AddItem(Item newItem)
-    {
-        this.levelJournal.Add(newItem.GetName(), newItem);
-        Debug.Log($"Item {newItem.GetName()} added to player.");
     }
 
     public void TakeDamage(int amount)

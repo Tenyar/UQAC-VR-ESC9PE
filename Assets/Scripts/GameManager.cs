@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     // Current level journal to compare the player choice to
-    public Dictionary<string, Item> currentLevelJournal = new Dictionary<string, Item>();
+    public List<InteractableItem> currentLevelJournal = new List<InteractableItem>();
 
     private Player playerData;
 
@@ -37,19 +38,26 @@ public class GameManager : MonoBehaviour
     public void RecordItemInteraction(GameObject reference, string itemName)
     {
         // Create an Object "Item"
-        Item itemComponent = reference.GetComponent<Item>();
-        if (itemComponent != null && !this.currentLevelJournal.ContainsKey(itemName))
+        InteractableItem itemComponent = reference.GetComponent<InteractableItem>();
+        if (itemComponent != null)
         {
-            // Store --> {"itemName" = ObjetItem}
-            this.currentLevelJournal[itemName] = itemComponent;
-            Debug.Log($"[Journal] Objet '{itemName}' enregistré dans le journal.");
+            if (this.currentLevelJournal.Contains(itemComponent))
+            {
+                this.currentLevelJournal.Remove(itemComponent);
+                Debug.Log($"[Journal] Objet '{itemName}' supprimé du journal.");
+            }
+            else
+            {
+                this.currentLevelJournal.Add(itemComponent);
+                Debug.Log($"[Journal] Objet '{itemName}' enregistré dans le journal.");
+            }
         }
         else
         {
             Debug.LogWarning($"[Journal] Objet '{itemName}' non trouvé dans la scène !");
         }
     }
-    
+
     public void PlayerTookDamage(int amount)
     {
         playerData.health -= amount;
