@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Collections;
-
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
         CheckPlayerStatus();
     }
 
+    public GameManager getInstance()
+    {
+        return this;
+    }
+
     public void UpdatePlayerProgress(string checkpoint)
     {
         // Level checkpoint
@@ -32,6 +37,39 @@ public class GameManager : MonoBehaviour
         {
             ////SpawnEnemies();
         }
+    }
+
+    public void PlayerTookDamage(int amount)
+    {
+        playerData.health -= amount;
+        Debug.Log($"Player Health: {playerData.health}");
+
+        if (playerData.health <= 0)
+        {
+            HandleGameOver();
+        }
+    }
+
+    private void CheckPlayerStatus()
+    {
+        // TODO : Implement some game logic here
+    }
+
+    private bool CheckPlayerJournalOnTrigger()
+    {
+        // TODO : Check for player's dictionnary with current level anomalies.
+        /*
+        if (playerData.getJournal() != null && playerData.getJournal().Count > 0)
+        {
+            ValidateLevel();
+        }
+        */
+        return true;
+    }
+
+    public void loadLevel(string levelName)
+    {
+        SceneManager.LoadScene(levelName);
     }
 
     // Adds an object to the journal if it is not already in it
@@ -58,34 +96,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayerTookDamage(int amount)
-    {
-        playerData.health -= amount;
-        Debug.Log($"Player Health: {playerData.health}");
-
-        if (playerData.health <= 0)
-        {
-            HandleGameOver();
-        }
-    }
-
-    private void CheckPlayerStatus()
-    {
-        // TODO : Implement some game logic here
-    }
-
-        private bool CheckPlayerJournalOnTrigger()
-    {
-        // TODO : Check for player's dictionnary with current level anomalies.
-        /*
-        if (playerData.getJournal() != null && playerData.getJournal().Count > 0)
-        {
-            ValidateLevel();
-        }
-        */
-        return true;
-    }
-
     private void SpawnEnemies()
     {
         Debug.Log("Spawning enemies...");
@@ -102,5 +112,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game Over!");
         // TODO : Show GameOver UI, reset level, etc.
+        // SceneManager.LoadScene("gameover");
     }
 }
