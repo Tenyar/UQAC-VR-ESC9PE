@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+
 
 public class triggerLoadLevel : MonoBehaviour
 {
@@ -10,11 +12,10 @@ public class triggerLoadLevel : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("TESTTTT");
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered the trigger zone!");
-            // Put your logic here (e.g., load scene, open door)
+            SceneManager.LoadScene(sceneName);
+            print("TESTTTT ENTER");
         }
     }
 
@@ -22,7 +23,7 @@ public class triggerLoadLevel : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player exited the trigger zone!");
+            print("TESTTTT EXIT");
         }
     }
 }
