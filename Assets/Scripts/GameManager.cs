@@ -11,37 +11,55 @@ public class GameManager : MonoBehaviour
 
     private Player playerData;
 
+    private String checkPoint;
+
+
     void Awake() {
+        // If another instance already exists and it's not this one, destroy this
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning("[GameManager] Duplicate found, destroying the new one.");
+            Destroy(this.gameObject);
+            return;
+        }
+
         Instance = this;
-        DontDestroyOnLoad(gameObject); // keep GameManager between levels if he's attached to a gameObject
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Start()
     {
-        CheckPlayerStatus();
+        // Check before the game the first frame if the player is present in the scene
+        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+        if (playerGO == null)
+            {
+                Debug.LogError("[GameManager] Could not find GameObject with tag 'Player'");
+                return;
+            }
+
+        playerData = playerGO.GetComponent<Player>();
+        if (playerData == null)
+            {
+                Debug.LogError("[GameManager] Found GameObject, but it has no Player script!");
+                return;
+            }
+
+        initPlayerStatus();
     }
 
-    public GameManager getInstance()
+    public String getCheckPoint()
     {
-        return this;
+        return this.checkPoint;
     }
 
-    public void UpdatePlayerProgress(string checkpoint)
+    public void setCheckPoint(String newCheckPoint)
     {
-        // Level checkpoint
-        ////playerData.lastCheckpoint = checkpoint;
-        Debug.Log($"Player reached: {checkpoint}");
-
-        // Trigger actions based on checkpoint
-        if (checkpoint == "Level_1")
-        {
-            ////SpawnEnemies();
-        }
+        this.checkPoint = newCheckPoint;
     }
 
-    public void PlayerTookDamage(int amount)
+    public void playerTookDamage(int amount)
     {
-        playerData.health -= amount;
+        playerData.setHealth(playerData.getHealth() - amount);
         Debug.Log($"Player Health: {playerData.health}");
 
         if (playerData.health <= 0)
@@ -50,30 +68,44 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void CheckPlayerStatus()
+    private void initPlayerStatus()
     {
         // TODO : Implement some game logic here
+        // Player have 3 lives (hearts) at the start
+        this.playerData.setHealth(3);
+
     }
 
-    private bool CheckPlayerJournalOnTrigger()
+    private bool checkPlayer()
     {
-        // TODO : Check for player's dictionnary with current level anomalies.
-        /*
-        if (playerData.getJournal() != null && playerData.getJournal().Count > 0)
+        // TODO : Check if the player have all the anomalies
+        // if the player have a journal and noted more at least 1 item
+        if (this.playerData.getPlayerJournal() != null && this.playerData.getPlayerJournal().Count > 0)
         {
-            ValidateLevel();
+            // loop through the level list to see if the player got all the anomalies
+            foreach (InteractableItem item in this.playerData.getPlayerJournal()){
+                if(item.getAnomaly() == false){
+                    return false;
+                }
+            }
+            return true;
+        }else {
+            return false;
         }
-        */
-        return true;
     }
 
-    public void loadLevel(string levelName)
+    public void finishLevel(string levelName)
     {
-        SceneManager.LoadScene(levelName);
+        if(this.checkPlayer()){ // if true
+            this.setCheckPoint(levelName);
+            SceneManager.LoadScene(levelName);
+        } else {
+            SceneManager.LoadScene(this.getCheckPoint());
+        }
     }
 
     // Adds an object to the journal if it is not already in it
-    public void RecordItemInteraction(GameObject reference, string itemName)
+    public void recordItemInteraction(GameObject reference, string itemName)
     {
         // Create an Object "Item"
         InteractableItem itemComponent = reference.GetComponent<InteractableItem>();
@@ -81,13 +113,15 @@ public class GameManager : MonoBehaviour
         {
             if (this.currentLevelJournal.Contains(itemComponent))
             {
-                this.currentLevelJournal.Remove(itemComponent);
+                this.playerData.getPlayerJournal().Remove(itemComponent);
                 Debug.Log($"[Journal] Objet '{itemName}' supprimé du journal.");
+                Debug.Log($"PLAYER JOURNAL '{this.playerData.getPlayerJournal()}'");
             }
             else
             {
-                this.currentLevelJournal.Add(itemComponent);
+                this.playerData.getPlayerJournal().Add(itemComponent);
                 Debug.Log($"[Journal] Objet '{itemName}' enregistré dans le journal.");
+                Debug.Log($"PLAYER JOURNAL '{this.playerData.getPlayerJournal()}'");
             }
         }
         else
@@ -102,16 +136,12 @@ public class GameManager : MonoBehaviour
         //! Call enemy manager ?, instantiate prefabs, etc.
     }
 
-    private void ValidateLevel()
-    {
-        Debug.Log("Level passed !");
-        // TODO : Implement next level logic.
-    }
-
+    // Return the player to the lobby
     private void HandleGameOver()
     {
         Debug.Log("Game Over!");
+        //TODO : Add VR-specific death logic here (e.g., fade out, reset scene, etc.)
         // TODO : Show GameOver UI, reset level, etc.
-        // SceneManager.LoadScene("gameover");
+        SceneManager.LoadScene("Lobby");
     }
 }

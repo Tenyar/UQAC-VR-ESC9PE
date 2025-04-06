@@ -8,7 +8,6 @@ public class InteractableItem : MonoBehaviour
     public bool isAnomaly;
     private bool isHighlighted = false;
 
-
     private Renderer objectRenderer;
     private Color originalColor;
 
@@ -24,6 +23,11 @@ public class InteractableItem : MonoBehaviour
         {
             Debug.LogWarning("No Renderer found for " + gameObject.name);
         }
+    }
+
+    public bool getAnomaly()
+    {
+        return this.isAnomaly;
     }
 
     public void ToggleHighlight()
@@ -49,7 +53,7 @@ public class InteractableItem : MonoBehaviour
         if (!string.IsNullOrEmpty(itemName))
         {
             ToggleHighlight();
-            GameManager.Instance.RecordItemInteraction(gameObject, itemName);
+            GameManager.Instance.recordItemInteraction(gameObject, itemName);
         }
     }
 }

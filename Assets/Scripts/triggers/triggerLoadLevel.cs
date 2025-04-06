@@ -8,22 +8,27 @@ using UnityEngine.SceneManagement;
 public class triggerLoadLevel : MonoBehaviour
 {
     public string sceneName;
-    private GameManager gameManager;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(sceneName);
-            print("TESTTTT ENTER");
+            if (GameManager.Instance == null)
+            {
+                Debug.LogError("[triggerLoadLevel] GameManager.Instance is NULL!");
+            }
+            else
+            {
+                Debug.Log($"[triggerLoadLevel] Found GameManager: {GameManager.Instance}");
+                GameManager.Instance.setCheckPoint(sceneName);
+            }
+
+            SceneManager.LoadScene(sceneName); // Note: this is a hard reload!
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            print("TESTTTT EXIT");
-        }
+        // Nothing for now
     }
 }
