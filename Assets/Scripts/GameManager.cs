@@ -8,11 +8,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     // Current level journal to compare the player choice to
     public List<InteractableItem> currentLevelJournal = new List<InteractableItem>();
-
     private Player playerData;
-
     private String checkPoint;
-
+    private float stageStartTime = 0;
+    private float stageEndTime = 0;
 
     void Awake() {
         // If another instance already exists and it's not this one, destroy this
@@ -52,6 +51,15 @@ public class GameManager : MonoBehaviour
         return this.checkPoint;
     }
 
+    public float getStartTimer()
+    {
+        return this.stageStartTime;
+    }
+
+    public void resetTimers(){
+        stageStartTime = 0;
+        stageEndTime = 0;
+    }
     public void setCheckPoint(String newCheckPoint)
     {
         this.checkPoint = newCheckPoint;
@@ -70,10 +78,8 @@ public class GameManager : MonoBehaviour
 
     private void initPlayerStatus()
     {
-        // TODO : Implement some game logic here
         // Player have 3 lives (hearts) at the start
         this.playerData.setHealth(3);
-
     }
 
     private bool checkPlayer()
@@ -93,14 +99,76 @@ public class GameManager : MonoBehaviour
             return false;
         }
     }
+    
+    // When the gameObject containing the script is enabled
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-    public void finishLevel(string levelName)
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(DelayBindPlayer());
+    }
+
+    private IEnumerator DelayBindPlayer()
+    {
+        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerGO == null)
+        {
+            Debug.LogWarning("[GameManager] Player GameObject not found after scene load.");
+            yield break;
+        }
+
+        Player newPlayer = playerGO.GetComponent<Player>();
+        if (newPlayer == null)
+        {
+            Debug.LogWarning("[GameManager] Player script not found on GameObject.");
+            yield break;
+        }
+
+        // Transfer data from previous player gameObject script if needed(meaning we loaded a new level)
+        if (playerData != null)
+        {
+            newPlayer.setHealth(playerData.getHealth());
+            newPlayer.getPlayerJournal().Clear();
+            newPlayer.getPlayerJournal().AddRange(playerData.getPlayerJournal());
+        }
+
+        playerData = newPlayer;
+        Debug.Log("[GameManager] Player successfully re-linked after scene load.");
+    }
+
+    public void startTimer()
+    {
+        stageStartTime = Time.time;
+        Debug.Log($"[Timer] Stage started at: {stageStartTime}");
+    }
+
+    public void endTimer()
+    {
+        stageEndTime = Time.time;
+
+        float elapsed = stageEndTime - stageStartTime;
+        Debug.Log($"[Timer] Stage ended at: {stageEndTime}");
+        Debug.Log($"[Timer] Stage duration: {elapsed:F2} seconds");
+    }
+   
+    public void finishLevel(string sceneName)
     {
         if(this.checkPlayer()){ // if true
-            this.setCheckPoint(levelName);
-            SceneManager.LoadScene(levelName);
+            this.setCheckPoint(sceneName);
+            Debug.Log("----------- [PLAYER FINISHED !] -----------");
+            SceneManager.LoadScene(sceneName);
         } else {
-            SceneManager.LoadScene(this.getCheckPoint());
+            Debug.Log("----------- [PLAYER GAME OVER !] -----------");
+            SceneManager.LoadScene(sceneName);
         }
     }
 

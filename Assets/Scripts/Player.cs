@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 public class Player : MonoBehaviour
 {
     public int health;
@@ -7,6 +8,7 @@ public class Player : MonoBehaviour
     public List<InteractableItem> playerJournal = new List<InteractableItem>();
     public Transform xrOrigin; // Drag your XR Origin GameObject here
     private Vector3 offset;
+
 
     void Start()
     {
