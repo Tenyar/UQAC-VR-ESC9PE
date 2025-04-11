@@ -1,27 +1,27 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR.Interaction.Toolkit;
 
-public class VRPlayerInteraction : MonoBehaviour
+public class VRPlayerOnSelected : MonoBehaviour
 {
     public InputActionProperty triggerAction;
 
     public Transform handTransform;
-
     
     public float rayDistance = 5f;
 
-    void OnEnable()
+    private void OnEnable()
     {
         triggerAction.action.Enable();
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         triggerAction.action.Disable();
     }
 
-    void Update()
+    private void Update()
     {
         if (triggerAction.action.WasPerformedThisFrame())
         {
@@ -31,14 +31,14 @@ public class VRPlayerInteraction : MonoBehaviour
 
             if (Physics.Raycast(handTransform.position, handTransform.forward, out hit, rayDistance))
             {
-                InteractableItem item = hit.collider.GetComponentInParent<InteractableItem>();
-
-                if (item != null)
+                // Look for a child component of type OnSelectedMain
+                OnSelectedMain selectedComponent = hit.transform.GetComponentInChildren<OnSelectedMain>();
+                if (selectedComponent != null)
                 {
-                    item.registerInteraction();
+                    selectedComponent.OnSelected();
+                    Debug.Log("Triggered OnSelected on: " + selectedComponent.gameObject.name);
                 }
             }
         }
     }
-
 }

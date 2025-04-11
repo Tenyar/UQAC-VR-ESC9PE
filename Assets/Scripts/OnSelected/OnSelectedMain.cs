@@ -14,7 +14,6 @@ public class OnSelectedMain : MonoBehaviour
     protected virtual void Awake()
     {
         interactable = GetComponent<XRSimpleInteractable>();
-        interactable.selectEntered.AddListener(OnSelected);
         objectRenderer = GetComponentInChildren<Renderer>();
 
         Debug.Log($"XRBaseInteractable {interactable}");
@@ -43,7 +42,6 @@ public class OnSelectedMain : MonoBehaviour
             interactable.hoverEntered.RemoveListener(OnHoverEnter);
             interactable.hoverExited.RemoveListener(OnHoverExit);
         }
-        interactable.selectEntered.RemoveListener(OnSelected);
     }
 
     protected virtual void OnHoverEnter(HoverEnterEventArgs args)
@@ -58,7 +56,7 @@ public class OnSelectedMain : MonoBehaviour
             objectRenderer.material = defaultMaterial;
     }
 
-    protected virtual void OnSelected(SelectEnterEventArgs args)
+    public virtual void OnSelected()
     {
         Debug.Log($"{gameObject.name}: Base YourMethod() triggered");
     }

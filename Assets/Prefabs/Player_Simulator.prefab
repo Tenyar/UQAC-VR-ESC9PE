@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2363604930740703882}
   - component: {fileID: 8499582190770485801}
   - component: {fileID: 3298443548649537196}
+  - component: {fileID: 2771735714554094082}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -198,6 +199,40 @@ MonoBehaviour:
       m_SingletonActionBindings:
       - m_Name: 
         m_Id: 2acc3d10-5880-485d-abbb-e2bf52a64bc7
+        m_Path: <XRController>{RightHand}/triggerPressed
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Trigger
+        m_Flags: 0
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  handTransform: {fileID: 948413430515030305}
+  rayDistance: 5
+--- !u!114 &2771735714554094082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137148519787358154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecdd61e6beebde246801712d18d070ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Trigger
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: f473b652-d367-4c34-8ac3-b00e0382d744
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: bc553693-eb17-4dd0-9a71-fdc31f8aad2b
         m_Path: <XRController>{RightHand}/triggerPressed
         m_Interactions: 
         m_Processors: 
