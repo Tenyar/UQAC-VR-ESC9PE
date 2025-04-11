@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class triggerFinishLevel : MonoBehaviour
+public class TriggerFinishLevel : MonoBehaviour
 {
     public string sceneName;
 

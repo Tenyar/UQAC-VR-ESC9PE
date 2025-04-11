@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 
-public class triggerLoadLevel : MonoBehaviour
+public class TriggerLoadLevel : MonoBehaviour
 {
     public string sceneName;
 
