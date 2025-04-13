@@ -36,7 +36,7 @@ public class VRPlayerOnSelected : MonoBehaviour
                 if (selectedComponent != null)
                 {
                     selectedComponent.OnSelected();
-                    Debug.Log("Triggered OnSelected on: " + selectedComponent.gameObject.name);
+////                    Debug.Log("Triggered OnSelected on: " + selectedComponent.gameObject.name);
                 }
             }
         }

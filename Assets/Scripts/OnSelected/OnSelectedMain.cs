@@ -29,7 +29,7 @@ public class OnSelectedMain : MonoBehaviour
         interactable.hoverExited.AddListener(OnHoverExit);
     }
 
-    protected virtual void start()
+    protected virtual void Start()
     {
 
     }
