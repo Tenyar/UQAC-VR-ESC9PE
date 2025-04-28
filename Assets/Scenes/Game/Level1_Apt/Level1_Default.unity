@@ -5223,6 +5223,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 153982007679157697, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_MoveSpeed
+      value: 6.25
+      objectReference: {fileID: 0}
     - target: {fileID: 1178791450436251564, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_CameraYOffset
       value: 1.66144
@@ -5234,6 +5238,10 @@ PrefabInstance:
     - target: {fileID: 1717954561962503725, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717954561962503725, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_RootOrder
@@ -8141,6 +8149,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 58175280716411844, guid: ebcde7b85f0afbb42983365ec2774818, type: 3}
   m_PrefabInstance: {fileID: 526063129}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &808485150
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7559105447446435205, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_Name
+      value: Player_Body
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.4703555
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 25.12023
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0000010579823
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058096890242472388, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6010b242d2732184b81d76250c8d1c90, type: 3}
 --- !u!1001 &816851627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11353,7 +11418,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 40459bacfe72c4a4c808ad726dcb0edc, type: 2}
+  - {fileID: 2100000, guid: 621990d67e6fb914ba1a8a33f5255a64, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13717,7 +13782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a48477a67f13043af43d6894f86558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Anomaly_2
+  sceneName: Anomaly_1
 --- !u!65 &1468151333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21041,3 +21106,4 @@ SceneRoots:
   - {fileID: 1810913158}
   - {fileID: 1468151336}
   - {fileID: 476749246}
+  - {fileID: 808485150}
