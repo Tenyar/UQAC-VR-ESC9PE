@@ -8,8 +8,15 @@ public class OnSelectedEscalator : OnSelectedMain
     private Color originalColor;
     [SerializeField] private GameObject doors;
     private Animator doorAnimator;
+
+    // To check the player choices 
+    public bool isAnomalyEscalator;
     private bool doorsAreOpen = true;
     [SerializeField] private GameObject tags;
+
+    [Header("Teleport Settings")]
+    [SerializeField] private Transform teleportDestination = null; // <- where to teleport
+    
 
     protected override void Start()
     {
@@ -33,8 +40,6 @@ public class OnSelectedEscalator : OnSelectedMain
         Debug.Log($"{doorsAreOpen }: Closing door now!");
         doorAnimator.SetBool("isOpen", doorsAreOpen);  // Triggers transition in Animator
         
-        ////Debug.Log($"{gameObject.name}: Toggling visibility!");
-
         GameObject  tagOpened = tags.transform.Find("Tags_Opened")?.gameObject;
         GameObject  tagClosed = tags.transform.Find("Tags_Closed")?.gameObject;
         if (tagOpened != null)
@@ -42,7 +47,30 @@ public class OnSelectedEscalator : OnSelectedMain
 
         if (tagClosed != null)
             tagClosed.SetActive(!tagClosed.activeSelf);
+        
 
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("[triggerLoadLevel] GameManager.Instance is NULL!");
+        } else {
+            if(isAnomalyEscalator == true){
+                if(GameManager.Instance.checkPlayer()){
+                    Transform teleportDestination = GameObject.Find("TP_SUCCESS")?.transform;
+                    StartCoroutine(
+                    // Start the teleport coroutine
+                        GameManager.Instance.teleportPlayerLocRot(teleportDestination));
+                } else {
+                     Transform teleportDestination = GameObject.Find("TP_GAMEOVER")?.transform;
+                    StartCoroutine(
+                    // Start the teleport coroutine
+                        GameManager.Instance.teleportPlayerLocRot(teleportDestination));
+                }
+            } else {
+            StartCoroutine(
+            // Start the teleport coroutine
+                GameManager.Instance.teleportPlayerLocRot(teleportDestination));
+            }
+        }
     }
 }
 

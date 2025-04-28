@@ -56,15 +56,17 @@ public class GameManager : MonoBehaviour
         return this.stageStartTime;
     }
 
-    public void resetTimers(){
-        stageStartTime = 0;
-        stageEndTime = 0;
-    }
+    
     public void setCheckPoint(String newCheckPoint)
     {
         this.checkPoint = newCheckPoint;
     }
 
+    public void resetTimers(){
+        stageStartTime = 0;
+        stageEndTime = 0;
+    }
+  
     public void playerTookDamage(int amount)
     {
         playerData.setHealth(playerData.getHealth() - amount);
@@ -82,9 +84,8 @@ public class GameManager : MonoBehaviour
         this.playerData.setHealth(3);
     }
 
-    private bool checkPlayer()
+    public bool checkPlayer()
     {
-        // TODO : Check if the player have all the anomalies
         // if the player have a journal and noted more at least 1 item
         if (this.playerData.getPlayerJournal() != null && this.playerData.getPlayerJournal().Count > 0)
         {
@@ -172,6 +173,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public IEnumerator teleportPlayerLocRot(Transform teleportDestination)
+    {
+        yield return new WaitForSeconds(2f); // wait for 2 seconds
+
+        GameObject xrOrigin = GameObject.FindGameObjectWithTag("Anchor");
+
+        if (xrOrigin != null && teleportDestination != null)
+        {
+            xrOrigin.transform.position = teleportDestination.position;
+            xrOrigin.transform.rotation = teleportDestination.rotation;
+            Debug.Log("XR Origin teleported!");
+        }
+        else
+        {
+            Debug.LogError("XR Origin or Teleport Destination not assigned!");
+        }
+    }
+
     // Adds an object to the journal if it is not already in it
     public void recordItemInteraction(GameObject reference, string itemName)
     {
@@ -196,12 +215,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning($"[Journal] Objet '{itemName}' non trouvé dans la scène !");
         }
-    }
-
-    private void SpawnEnemies()
-    {
-        Debug.Log("Spawning enemies...");
-        //! Call enemy manager ?, instantiate prefabs, etc.
     }
 
     // Return the player to the lobby
