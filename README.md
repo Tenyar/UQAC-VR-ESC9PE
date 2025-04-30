@@ -50,3 +50,16 @@ Cette classe permet l'implémentation de l'appel à la méthode ```selectedCompo
 ### Classe OnSelectedMain
 Cette classe est un squelette (avec méthode abstraite) permettant l'implémentation de fonctionnalités personnalisées à chaque objet sélectionnable.
 La méthode ```public virtual void OnSelected()``` est une méthode abstrait de la classe parent qui permet à l'enfant de définir une logique une fois sélectionné.
+
+## Classe enfant OnSelectedEscalator
+```
+public class OnSelectedEscalator : OnSelectedMain
+```
+Cette classe permet l'implémentation d'un ascenseur avec des points de téléportations et animations sur ses portes.
+
+La variable paramétrable dans l'éditeur est :
+```java
+public bool isAnomalyEscalator;
+```
+
+La classe intègre un système de coroutine pour téléporter le joueur au bout de 2 secondes après avoir déclancher le boutton de l'ascenseur ```OnSelectedEscalator.OnSelected()```.
